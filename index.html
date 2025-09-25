@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Monitoring</title>
+    <link rel="stylesheet" href="css.css"></head>
+<body>
+    <div id="title">
+        <h1>Data Monitoring</h1>
+         <img src="assets/images/logoikan.png" alt="Description of the image">
+    </div>
+
+    <div id="data-container">
+        <!-- Tempat data akan ditampilkan -->
+    </div>
+    <h2>Kontrol</h2>
+    <div id="control-container">
+        <label for="status-switch" class="switch">
+        <input type="checkbox" id="status-switch" onchange="setStatus()">
+        <span class="slider"></span>
+        </label>
+        ON/OFF</p>
+        
+        <label for="pump-switch" class="switch">
+        <input type="checkbox" id="pump-switch" onchange="setStatus()">
+        <span class="slider"></span>
+        </label>
+        Water Pump ON/OFF</p>
+        
+        <label for="keran-switch" class="switch">
+        <input type="checkbox" id="keran-switch" onchange="setStatus()">
+        <span class="slider"></span>
+        </label>
+        Switch Keran</p>
+    </div>
+
+    <script>
+        function fetchData() {
+            fetch('http://localhost/UAP/getData.php')
+                .then(response => response.json())
+                .then(data => {
+                    // Tampilkan data
+                    document.getElementById('data-container').innerHTML = `
+                        <p>Suhu: ${data.temperature} °C</p>
+                        <p>Level Air: ${data.water_level}</p>
+                    `;
+                    
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        function fetchStatus() {
+            fetch('http://localhost/UAP/getStatus.php')
+                .then(response => response.json())
+                .then(data => {
+                    
+                    // Periksa status switch dan atur keadaan switch sesuai
+                    document.getElementById('status-switch').checked = (data.status === 'aktif');
+                    document.getElementById('pump-switch').checked = (data.pump_status === 'aktif');
+                    document.getElementById('keran-switch').checked = (data.servo_status === 'aktif');
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        
+        function setStatus(){
+            status = document.getElementById('status-switch').checked ? 'aktif' : 'mati';
+            pump_status = document.getElementById('pump-switch').checked ? 'aktif' : 'mati';
+            servo_status = document.getElementById('keran-switch').checked ? 'aktif' : 'mati';
+            const url = `http://localhost/UAP/setStatus.php?status=${status}&pump_status=${pump_status}&servo_status=${servo_status}`
+            fetch(url)
+            .then(response => response.json())
+            .then(result => {
+                console.log('Berhasil memperbarui database:', result);
+            })
+            .catch(error => {
+                console.error('Gagal memperbarui database:', error);
+            });
+            
+        }
+
+        
+
+        // Jalankan fetchData saat halaman dimuat
+        fetchData();
+        fetchStatus();
+        setInterval(fetchData, 1000);
+    </script>
+</body>
+</html>

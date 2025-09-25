@@ -1,0 +1,106 @@
+/* Add some basic styling to the body and headers */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #4598ff;
+  margin: 100;
+  padding: 0;
+}
+
+h1, h2 {
+  color: rgb(255, 255, 255);
+  text-shadow: -2px -2px 2px #000080, 2px -2px 2px #000080, -2px 2px 2px #000080, 2px 2px 2px #000080;
+  display: inline-block;
+}
+
+
+
+/* Style the data-container */
+#data-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 200px rgba(0, 0, 0, 0.1);
+}
+
+#data-container p {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Style the control-container */
+#control-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 200px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Additional styling for the switches */
+.switch-label {
+  margin-left: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+#title {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+#title img {
+ width: 100px;
+ height: 100px;
+}
